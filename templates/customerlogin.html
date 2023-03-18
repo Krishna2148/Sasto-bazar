@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Customer Login{% endblock %}
+
+{% block content %}
+<style>
+    .errorlist {
+        color: red;
+        
+    }
+    .login-form{
+        margin-top:15px;
+        background-color:#C7E8CA;
+        border-radius: 10px;
+        margin-bottom:15px;
+        width:70%;
+        margin-left:15%;
+    }
+    .login-btn{
+        padding-left:20px;
+        padding-right:20px;
+    }
+</style>
+            
+            <div class="container justify-content-center">
+                <div class="row login-form">
+                  <div class="col-sm-12 text-center">
+                    <h3 class="text-center">Customer Login Form</h3><br>
+                    <form class="form-horizontal" style="max-width: 400px; margin: 0 auto;">
+                        
+                      <div class="form-group">
+                        <label for="inputEmail" class="col-sm-2 control-label" name="username">Username</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control"  name="password" placeholder="username">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                          <input type="password" class="form-control" id="inputPassword" placeholder="password">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-xs-12 col-sm-8 col-md-6">
+
+                          <button type="submit" class="btn btn-primary btn-md-12 px-5 login-btn">Log in</button>
+                        </div>
+                    </div>
+                  
+                {% if error %}
+                <li style="color: red;">{{error}}</li>
+                {% endif %}
+            </form>
+            <p>Forgot Password?<a href="{% url 'ecomapp:passworforgot' %}">Reset now.</a></p>
+            <p> or dont have account? <a href="{% url 'ecomapp:customerregistration' %}{% if request.GET.next %}?next={{request.GET.next}}{% endif %}">Register here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

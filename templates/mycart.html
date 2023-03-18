@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %} My cart{% endblock %}
+
+{% block content %}
+
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <style media="screen">
+    .button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button:hover span {
+    padding-right: 25px;
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+  
+  .button2 {
+    background-color: white;
+    color: black;
+    border: 2px solid #008CBA;
+  }
+  
+  .button2:hover {
+    background-color: #008CBA;
+    color: white;
+  }
+  .button3 {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  </style>
+  
+  </head>
+<div class="container">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h6 style="text-align:center;" class="panel-title">My Cart</h6>
+      </div>
+      <table class="table table-hover" id="dev-table">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th>Product</th>
+            <th>Rate</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th>Action</th>
+            
+  
+          </tr>
+        </thead>
+        {% for cp in cart.cartproduct_set.all %}
+    {% if cp %}
+  
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td>{{cp.product.title}}</td>
+          <td>{{cp.rate}}</td>
+                        <td>{{cp.quantity}}</td>
+                        <td>{{cp.subtotal}}</td>
+                        <td>
+                            <a href="{% url 'ecomapp:managecart' cp.id %}?action=inc" class="btn btn-primary"> + </a>
+                            <a href="{% url 'ecomapp:managecart' cp.id %}?action=dcr" class="btn btn-warning"> - </a>
+                            <a href="{% url 'ecomapp:managecart' cp.id %}?action=rmv" class="btn btn-danger"> x </a>
+                        </td>
+        </tr>
+
+        {%else%}
+        <br><br><br>
+        <h1>no products</h1>
+        {% endif %}
+        {% endfor %}
+        {% if cart.cartproduct_set.all %}
+        <th><a href="{% url 'ecomapp:emptycart' %}"><button class="button3" ><span>Empty Cart</span></button></a></th>
+        {% endif %}
+    </tr>
+   
+      </table>
+    </div>
+  </div>
+  <br><br><br>
+  <div style="text-align: center;">
+    <button class="button button2">Total {{cart.total}}</button>
+    {% if request.user.customer %}
+    <a href="{% url 'ecomapp:checkout' %}"><button class="button" ><span>Checkout</span></button></a>
+    {% else %}
+    <a href="{% url 'ecomapp:customerlogin' %}"><button class="button" ><span>Checkout</span></button></a>
+    {% endif %}
+  </div>
+  
+
+{% endblock %}

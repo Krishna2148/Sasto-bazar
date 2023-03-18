@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Order Detail {% endblock %}
+
+{% block content %}
+<div class="col-md-8">
+    <h3>Previous Orders</h3>
+    <hr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>SN</th>
+                <th>Order ID</th>
+                <th>Amount</th>
+                <th>Ordered on</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in allorders %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td><a href="{% url 'ecomapp:customerorderdetail' ord.pk %}"> #ORDER_{{ord.id}}</a></td>
+                <td>{{ord.total}}</td>
+                <td>{{ord.created_at|timesince}} ago</td>
+                <td>{{ord.order_status}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
